@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import datetime
 from artists.models import Artist
+from django import forms
 
 # Create your models here.
 
@@ -17,6 +18,7 @@ class Album (models.Model):
 
     artist = models.ForeignKey(
         'artists.Artist', related_name='albums', on_delete=models.CASCADE)
+    is_approved = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name

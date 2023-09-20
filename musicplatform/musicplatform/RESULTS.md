@@ -98,7 +98,7 @@ Album.objects.count()
 ================================================================================================================
 
 - in 2 different ways, for each artist, list down all of his/her albums
-  First Way Using The Objects Manager:
+  = First Way Using The Objects Manager:
   artists_list= Artist.objects.all()
   for artist in artists_list :
   artist.stagename
@@ -123,7 +123,7 @@ Album.objects.count()
   'test9'
   <QuerySet []>
 
-- The Second Way Using the related object reference:
+= The Second Way Using the related object reference:
 
 for album in Album.objects.select_related('artist').all():
 ... album.artist.stagename
@@ -146,3 +146,9 @@ for album in Album.objects.select_related('artist').all():
 
 Album.objects.all().order_by('cost','name')  
 <QuerySet [<Album: Kanye Album>, <Album: Kanye Album>, <Album: OM Al Mawjat>, <Album: Before Bed>, <Album: YFGYY>]>
+
+================================================================================================================
+
+- We can do the following Query
+
+Artist.objects.all().order_by("approved_albums")
