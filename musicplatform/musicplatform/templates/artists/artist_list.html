@@ -1,0 +1,39 @@
+{% comment %} id: 1
+Stage name: Drake
+Social: https://....
+Albums: {% endcomment %}
+
+{% block content %}
+{%for artist in list %}
+
+<ul>
+    
+    <li><p>Artist Name </p>  {{artist.stagename}}</li>
+    <li><p>Artist Profile</p>  {{artist.social_link}}</li>
+    <p>Albums <br> -></p>
+    {% if artist.albums.all%}
+      {% for album in artist.albums.all %}
+
+        <ul>
+             <li><p>Album ID </p>  {{album.id}}</li>
+             <li><p>Album Creation date </p>  {{album.creation_datetime}}</li>
+             <li><p>Album Realease Date</p>  {{album.release_datetime}}</li>
+             <li><p>Album Cost</p>  {{album.cost}}</li>
+
+        </ul>
+    
+         {%endfor%}  
+    {% else %}
+    <div style="color: red;">
+    <p>This Artist Got no Albums To display </p>
+    </div>
+    {% endif %}
+
+
+
+</ul>
+{%endfor%}
+
+
+{% endblock content %}
+    

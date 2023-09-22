@@ -1,0 +1,23 @@
+{%block content%}
+<br>
+<form method = 'POST'>
+    {% csrf_token %}
+    
+
+    {% for field in ArtistForm %}
+    {{ field.label_tag }} 
+    
+    {{ field }}
+    
+     {% if field.errors %}
+        <div style="color: red;">
+            {{ field.errors }}
+        </div>
+     {% endif %}
+   {% endfor %}
+
+
+    <input type="submit" value="Save">
+    <br>
+
+{% endblock %}
