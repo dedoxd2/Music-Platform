@@ -10,6 +10,8 @@ python = "^3.11"
 django = "^4.2.5"
 python-decouple = "^3.8"
 django-extensions = "^3.2.3"
+django-imagekit = "^4.1.0"
+pillow = "^10.0.1"
 
 
 [build-system]

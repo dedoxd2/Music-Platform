@@ -1,0 +1,22 @@
+<div class='row'> 
+<div class = "col-md-10">
+    Welcome </div>
+    <div class = "col-md-2">
+   {% if user.is_authenticated%}
+    welcome <span class="text-success"> {{user.username}}</span>
+    <br>
+    <a href="{% url 'logout' %}">logout</a>
+    {% else %}
+    <a href="{% url 'login' %}">Loging</a>
+    <br>
+    <a href="{% url 'signup' %}"> Create Account </a>
+    <br>
+    welcome , your are in Guest Mode 
+    {% endif %}
+
+</div>
+</div>
+
+ {% block conent  %}
+ {% endblock conent %}
+    
