@@ -3,5 +3,6 @@ from . import views
 
 
 urlpatterns = [
-    path('create', views.AlbumFormView.as_view(), name='album_form')
+    path('', views.AlbumListCreate.as_view(), name='album_form'),
+    path('songs', views.SongListCreate.as_view(), name='album_form')
 ]

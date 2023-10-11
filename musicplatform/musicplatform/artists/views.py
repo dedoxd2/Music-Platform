@@ -6,35 +6,43 @@ from django.views.generic.list import ListView
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from rest_framework.response import Response
+from rest_framework import generics
+from .serializers import ArtistSerializer
 
 # Create your views here.
 
 
-class ArtistFormView(LoginRequiredMixin, FormView):
-    template_name = "artists/artist_form.html"
-    form_class = ArtistForm
-    # Redirect to artist list after form is successfully submitted
-    success_url = reverse_lazy('artist_list')
-
-    def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
-
-    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-        context['ArtistForm'] = context.pop('form')
-
-        return context
+class ArtistList(generics.ListCreateAPIView):
+    queryset = Artist.objects.all()
+    serializer_class = ArtistSerializer
 
 
-class ArtistListView(ListView):
-    model = Artist
-    template_name = 'artists/artist_list.html'
-    context_object_name = 'list'
+# class ArtistFormView(LoginRequiredMixin, FormView):
+#     template_name = "artists/artist_form.html"
+#     form_class = ArtistForm
+#     # Redirect to artist list after form is successfully submitted
+#     success_url = reverse_lazy('artist_list')
 
-    def get_queryset(self):
+#     def form_valid(self, form):
+#         form.save()
+#         return super().form_valid(form)
 
-        return Artist.objects.prefetch_related('albums')
+#     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+#         context = super().get_context_data(**kwargs)
+#         context['ArtistForm'] = context.pop('form')
+
+#         return context
+
+
+# class ArtistListView(ListView):
+#     model = Artist
+#     template_name = 'artists/artist_list.html'
+#     context_object_name = 'list'
+
+#     def get_queryset(self):
+
+#         return Artist.objects.prefetch_related('albums')
 
 
 # def artist_form(request):
