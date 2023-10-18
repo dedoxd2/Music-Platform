@@ -26,6 +26,8 @@ urlpatterns = [
     path('artists/', include('artists.urls')),
     path('albums/', include('albums.urls')),
     path('auth/', include('authentication.urls')),
+    path('api/auth/', include('knox.urls')),
+    path('user/', include('users.urls')),
 
 ]
 

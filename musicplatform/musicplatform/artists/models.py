@@ -1,8 +1,18 @@
 from django.db import models
 from django.db.models import Count, Q, QuerySet
 from django.db.models.query import QuerySet
-
+from users.models import User
+from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
 # Create your models here.
+
+
+# @receiver(post_save, sender=settings.AUTH_USER_MODEL)
+# def create_auth_token(sender, instance=None, created=False, **kwargs):
+#     if created:
+#         Token.objects.create(user=instance)
 
 
 class ArtistQuerySet(QuerySet):
@@ -18,9 +28,10 @@ class ArtistManager(models.Manager):
 class Artist(models.Model):
 
     stagename = models.CharField(
-        max_length=50, primary_key=True, help_text="Artist Name")
+        max_length=50, unique=True, help_text="Artist Name")
     social_link = models.URLField(
         max_length=50, blank=True, null=False, unique=True, help_text="Artist Profile")
+    user = models.OneToOneField(User,  on_delete=models.CASCADE)
     objects = ArtistManager()
 
     def __str__(self):
