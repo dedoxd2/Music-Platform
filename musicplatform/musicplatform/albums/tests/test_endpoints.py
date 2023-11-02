@@ -20,9 +20,10 @@ class Test_Albums_Endpoints:
         artist = Artist.objects.create(
             stagename="Queen", social_link="https://www.instagram.com/KillerQueenn", user=create_user)
         client = APIClient()
+        client.force_authenticate(user=create_user)
         response = client.post(self.endpoint1, {"name": "test Album", "release_datetime": str(datetime.strptime(
             "12/11/2023 09:15:32", "%d/%m/%Y %H:%M:%S")), "cost": 123.1, "artist": artist.pk}, fromat="json")
-        # print(response.data)
+        print(response.data)
         assert response.status_code == 201
 
     def test_songs_get(self):

@@ -9,12 +9,6 @@ from rest_framework.authtoken.models import Token
 # Create your models here.
 
 
-# @receiver(post_save, sender=settings.AUTH_USER_MODEL)
-# def create_auth_token(sender, instance=None, created=False, **kwargs):
-#     if created:
-#         Token.objects.create(user=instance)
-
-
 class ArtistQuerySet(QuerySet):
     def with_approved_albums(self):
         return self.annotate(approved_albums=Count('albums', filter=Q(albums__is_approved=True)))

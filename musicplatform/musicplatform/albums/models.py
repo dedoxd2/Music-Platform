@@ -1,7 +1,6 @@
 from django.db import models
 from datetime import datetime
 from artists.models import Artist
-from django import forms
 from django_extensions.db.models import TimeStampedModel
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
@@ -39,6 +38,10 @@ def validate_audio_file_extension(value):
         raise ValidationError("Unsupported file extension.")
     else:
         return True
+
+
+def Approved_Albums():
+    return Album.objects.filter(is_approved=True)
 
 
 class Song (models.Model):

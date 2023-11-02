@@ -12,6 +12,7 @@ from rest_framework.permissions import AllowAny
 from knox.auth import TokenAuthentication
 from knox.models import AuthToken
 from users.serializers import UserSerializer
+from django.contrib.auth import authenticate, login
 # Create your views here.
 
 
@@ -22,8 +23,8 @@ class RegisterAPI(generics.ListCreateAPIView):
 
 
 class LoginAPI(generics.GenericAPIView):
-  #  permission_classes = [AllowAny]
-  #  queryset = User.objects.all()
+    permission_classes = [AllowAny]
+    queryset = User.objects.all()
     serializer_class = LoginSerializer
     authentication_classes = []
 
@@ -32,19 +33,10 @@ class LoginAPI(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data
         token = AuthToken.objects.create(user)[1]
+        login(request, user)
         return Response(data={'token': token,
                               'user': UserSerializer(user, context=self.get_serializer_context()).data},
                         status=status.HTTP_202_ACCEPTED)
-
-
-# class LoginForm(LoginView):
-#     template_name = "auth/login.html"
-
-
-# class SignupForm(CreateView):
-#     form_class = CustomSignupform
-#     success_url = reverse_lazy('login')
-#     template_name = 'auth/signup.html'
 
 
 class LogoutForm (LogoutView):
