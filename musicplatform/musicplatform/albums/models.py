@@ -5,7 +5,9 @@ from django_extensions.db.models import TimeStampedModel
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 from django.core.exceptions import ValidationError
-
+from .tasks import send_congrats_mail
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 # Create your models here.
 
 
@@ -63,3 +65,10 @@ class Song (models.Model):
         if self.album.songs.count() <= 1:
             raise ValidationError("An album must have at least one song")
             super().delete(*args, **kwargs)
+
+
+# Can't use AlbumSerializer Because circular import
+@receiver(post_save, sender=Album)
+def Send_Email(sender, instance, created=False, **kwargs):
+    if created:
+        send_congrats_mail(instance.artist, instance)

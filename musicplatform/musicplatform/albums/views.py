@@ -1,5 +1,6 @@
 from typing import Any
 from django.db.models.query import QuerySet
+from django.http import HttpResponse
 from django.shortcuts import render
 from .models import *
 from .forms import AlbumForm
@@ -17,6 +18,7 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.generics import ListAPIView
 from django.core.exceptions import SuspiciousOperation
 
+from .tasks import send_congrats_mail
 # Create your views here.
 
 
@@ -42,6 +44,7 @@ class AlbumListCreate(generics.ListCreateAPIView):
                 album = AlbumSerializer(data=request.data)
                 if album.is_valid():
                     album.save()
+                    # send_congrats_mail(artist, album) Another Way to send a Congrats Mail
                     return Response(album.data, status=status.HTTP_201_CREATED)
                 else:
                     return Response(album.errors, status=status.HTTP_400_BAD_REQUEST)
